@@ -1,0 +1,30 @@
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Ambientes virtuais
+.venv/
+venv/
+ENV/
+env/
+instance/
+
+# Banco de dados SQLite
+*.sqlite3
+db.sqlite3
+
+# Arquivos de configuração sensíveis
+.env
+
+# Pastas de IDE
+.vscode/
+.idea/
