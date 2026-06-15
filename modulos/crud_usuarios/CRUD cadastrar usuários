@@ -1,0 +1,15 @@
+usuarios = []
+
+def cadastrar_usuario():
+  id = len(usuarios) + 1
+
+  nome = input("Nome: ")
+  idade = int(input("Idade: "))
+  peso = float(input("Peso: "))
+  altura = float(input("Altura: "))
+
+  usuario = Usuario(id, nome, idade, peso, altura)
+
+  usuarios.append(usuario)
+
+  print("Usuário cadastrado com sucesso!") 
