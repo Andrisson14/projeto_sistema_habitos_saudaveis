@@ -29,5 +29,31 @@ def ler_todos_habitos():
 
     print("Lista de Hábitos:")
     for h in habitos:
-        print(f"ID: {h['id']} | {h['nome']} | Categoria: {h['categoria']} | Meta: {h['meta_diaria']}")
+        print("Lista de Hábitos Cadastrados:")
+    for h in habitos:
+        print(f"ID: {h['id']}")
+        print(f"Nome: {h['nome']}")
+        print(f"Categoria: {h['categoria']}")
+        print(f"Meta diária: {h['meta_diaria']}")
+        print("-" * 20)
     print()
+
+def ler_um_habito():
+    habitos = carregar_dados(ARQUIVO)
+
+    if not habitos:
+        print("Nenhum hábito cadastrado.")
+        return
+    
+    try:
+        id_habito = int(input("Digite o ID do hábito: "))
+        for h in habitos:
+            if h["id"] == id_habito:
+                print("Detalhes do Hábito:")
+                print(f"Nome: {h['nome']}")
+                print(f"Categoria: {h['categoria']}")
+                print(f"Meta diária: {h['meta_diaria']}")
+                return
+        print("Hábito não encontrado.")
+    except ValueError:
+        print("ID inválido. Por favor, digite um número.")
