@@ -2,6 +2,15 @@ from arquivos import carregar_dados, salvar_dados
 
 ARQUIVO = "habitos.json"
 
+def menu_habitos():
+    while True:
+        print("=== Menu de Hábitos ===")
+        print("1. Criar hábito")
+        print("2. Ler todos os hábitos")
+        print("3. Ler um hábito específico")
+        print("4. Editar um hábito")
+        print("5. Excluir um hábito")
+
 def criar_habito():
     habitos = carregar_dados(ARQUIVO)
 
@@ -57,3 +66,70 @@ def ler_um_habito():
         print("Hábito não encontrado.")
     except ValueError:
         print("ID inválido. Por favor, digite um número.")
+
+def editar_habito():
+    habitos = carregar_dados(ARQUIVO)
+
+    if not habitos:
+        print("Nenhum hábito cadastrado.")
+        return
+
+    try:
+        id_habito = int(input("Digite o ID do hábito que deseja editar: "))
+        for h in habitos:
+            if h["id"] == id_habito:
+                print("Informe os novos dados (deixe em branco para manter o valor atual):")
+                novo_nome = input(f"Nome atual ({h['nome']}): ")
+                nova_categoria = input(f"Categoria atual ({h['categoria']}): ")
+                nova_meta_diaria = input(f"Meta diária atual ({h['meta_diaria']}): ")
+
+                if novo_nome:
+                    h["nome"] = novo_nome
+                if nova_categoria:
+                    h["categoria"] = nova_categoria
+                if nova_meta_diaria:
+                    h["meta_diaria"] = nova_meta_diaria
+
+                salvar_dados(ARQUIVO, habitos)
+                print("Hábito atualizado com sucesso!")
+                return
+        print("Hábito não encontrado.")
+    except ValueError:
+        print("ID inválido. Por favor, digite um ID válido.")
+
+def excluir_habito():
+    habitos = carregar_dados(ARQUIVO)
+
+    if not habitos:
+        print("Nenhum hábito cadastrado.")
+        return
+
+    try:
+        id_habito = int(input("Digite o ID do hábito que deseja excluir: "))
+        for h in habitos:
+            if h["id"] == id_habito:
+                habitos.remove(h)
+                salvar_dados(ARQUIVO, habitos)
+                print("Hábito excluído com sucesso!")
+                return
+        print("Hábito não encontrado.")
+    except ValueError:
+        print("ID inválido. Por favor, digite um ID válido.")
+
+def main():
+    while True:
+        menu_habitos()
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            criar_habito()
+        elif opcao == "2":
+            ler_todos_habitos()
+        elif opcao == "3":
+            ler_um_habito()
+        elif opcao == "4":
+            editar_habito()
+        elif opcao == "5":
+            excluir_habito()
+        else:
+            print("Opção inválida. Por favor, escolha uma opção válida.")
