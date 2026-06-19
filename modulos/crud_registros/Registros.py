@@ -60,8 +60,9 @@ def procurar_registro():
             print("Realizado:", item["realizado"])
             print()
             return
-        else:
-            print("Registro não encontrado.")
+    else:
+        print("Registro não encontrado.")
+           
 
 while True:
     print("-------Menu de regstros-------")
