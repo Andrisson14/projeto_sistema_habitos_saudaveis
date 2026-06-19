@@ -1,5 +1,3 @@
-import json
-
 from arquivos import carregar_dados, salvar_dados
 
 ARQUIVO = "habitos.json"
@@ -14,17 +12,9 @@ def menu_habitos():
         print("6. Sair")
 
 def criar_habito():
-    try:
-        habitos = carregar_dados(ARQUIVO)
-    except FileNotFoundError:
-        habitos = []
-    except (json.JSONDecodeError, ValueError):
-        print("Erro: arquivo de dados corrompido ou em formato inválido.")
-        return
-    except Exception as e:
-        print(f"Erro inesperado ao carregar dados: {e}")
-        return
-
+    
+    habitos = carregar_dados(ARQUIVO)
+    
     while True:
         nome = input("Informe um hábito (ex: Beber água, Caminhada): ").strip()
         if nome:
@@ -44,24 +34,20 @@ def criar_habito():
             break
         print("A meta diária não pode ficar vazia. Tente novamente.")
 
-    try:
-        novo_id = (max(h["id"] for h in habitos) + 1) if habitos else 1
+   
+    novo_id = max((h["id"] for h in habitos), default=0) + 1
 
-        habito = {
-            "id": novo_id,
-            "nome": nome,
-            "categoria": categoria,
-            "meta_diaria": meta_diaria
-        }
+    habito = {
+        "id": novo_id,
+        "nome": nome,
+        "categoria": categoria,
+        "meta_diaria": meta_diaria
+    }
 
-        habitos.append(habito)
-        salvar_dados(ARQUIVO, habitos)
-        print(f"Hábito '{nome}' cadastrado com sucesso!")
+    habitos.append(habito)
+    salvar_dados(ARQUIVO, habitos)
+    print(f"Hábito '{nome}' cadastrado com sucesso!")
 
-    except (IOError, OSError) as e:
-        print(f"Erro ao salvar os dados: {e}")
-    except Exception as e:
-        print(f"Erro inesperado ao cadastrar o hábito: {e}")
 
 def ler_todos_habitos():
     habitos = carregar_dados(ARQUIVO)
@@ -69,10 +55,8 @@ def ler_todos_habitos():
     if not habitos:
         print("Nenhum hábito cadastrado.")
         return
-
-    print("Lista de Hábitos:")
-    for h in habitos:
-        print("Lista de Hábitos Cadastrados:")
+    
+    print("Lista de Hábitos Cadastrados:")
     for h in habitos:
         print(f"ID: {h['id']}")
         print(f"Nome: {h['nome']}")
@@ -82,17 +66,9 @@ def ler_todos_habitos():
     print()
 
 def ler_um_habito():
-    try:
-        habitos = carregar_dados(ARQUIVO)
-    except FileNotFoundError:
-        habitos = []
-    except (json.JSONDecodeError, ValueError):
-        print("Erro: arquivo de dados corrompido ou em formato inválido.")
-        return
-    except Exception as e:
-        print(f"Erro inesperado ao carregar dados: {e}")
-        return
-
+    
+    habitos = carregar_dados(ARQUIVO)
+    
     if not habitos:
         print("Nenhum hábito cadastrado.")
         return
@@ -124,29 +100,30 @@ def editar_habito():
     if not habitos:
         print("Nenhum hábito cadastrado.")
         return
+    while True:
+        try:
+            id_habito = int(input("Digite o ID do hábito que deseja editar: "))
+            for h in habitos:
+                if h["id"] == id_habito:
+                    print("Informe os novos dados (deixe em branco para manter o valor atual):")
+                    novo_nome = input(f"Nome atual ({h['nome']}): ")
+                    nova_categoria = input(f"Categoria atual ({h['categoria']}): ")
+                    nova_meta_diaria = input(f"Meta diária atual ({h['meta_diaria']}): ")
 
-    try:
-        id_habito = int(input("Digite o ID do hábito que deseja editar: "))
-        for h in habitos:
-            if h["id"] == id_habito:
-                print("Informe os novos dados (deixe em branco para manter o valor atual):")
-                novo_nome = input(f"Nome atual ({h['nome']}): ")
-                nova_categoria = input(f"Categoria atual ({h['categoria']}): ")
-                nova_meta_diaria = input(f"Meta diária atual ({h['meta_diaria']}): ")
+                    if novo_nome:
+                        h["nome"] = novo_nome
+                    if nova_categoria:
+                        h["categoria"] = nova_categoria
+                    if nova_meta_diaria:
+                        h["meta_diaria"] = nova_meta_diaria
 
-                if novo_nome:
-                    h["nome"] = novo_nome
-                if nova_categoria:
-                    h["categoria"] = nova_categoria
-                if nova_meta_diaria:
-                    h["meta_diaria"] = nova_meta_diaria
-
-                salvar_dados(ARQUIVO, habitos)
-                print("Hábito atualizado com sucesso!")
-                return
-        print("Hábito não encontrado.")
-    except ValueError:
-        print("ID inválido. Por favor, digite um ID válido.")
+                    salvar_dados(ARQUIVO, habitos)
+                    print("Hábito atualizado com sucesso!")
+                    return
+            print("Hábito não encontrado.")
+        except ValueError:
+            print("ID inválido. Por favor, digite um ID válido.")
+            
 
 def excluir_habito():
     habitos = carregar_dados(ARQUIVO)
@@ -187,7 +164,5 @@ def main():
             break
         else:
             print("Opção inválida. Por favor, escolha uma opção válida.")
-
-
-if __name__ == "__main__":
-    main()
+            
+if __name__ == "__main__":    main()
