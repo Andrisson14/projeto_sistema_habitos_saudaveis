@@ -3,13 +3,13 @@ from arquivos import carregar_dados, salvar_dados
 ARQUIVO = "habitos.json"
 
 def menu_habitos():
-    while True:
         print("=== Menu de Hábitos ===")
         print("1. Criar hábito")
         print("2. Ler todos os hábitos")
         print("3. Ler um hábito específico")
         print("4. Editar um hábito")
         print("5. Excluir um hábito")
+        print("6. Sair")
 
 def criar_habito():
     habitos = carregar_dados(ARQUIVO)
@@ -131,5 +131,12 @@ def main():
             editar_habito()
         elif opcao == "5":
             excluir_habito()
+        elif opcao == "6":
+            print("Saindo do menu de hábitos. Até mais!")
+            break
         else:
             print("Opção inválida. Por favor, escolha uma opção válida.")
+
+
+if __name__ == "__main__":
+    main()
