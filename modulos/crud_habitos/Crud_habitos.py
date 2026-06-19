@@ -1,3 +1,5 @@
+import json
+
 from arquivos import carregar_dados, salvar_dados
 
 ARQUIVO = "habitos.json"
@@ -12,22 +14,54 @@ def menu_habitos():
         print("6. Sair")
 
 def criar_habito():
-    habitos = carregar_dados(ARQUIVO)
+    try:
+        habitos = carregar_dados(ARQUIVO)
+    except FileNotFoundError:
+        habitos = []
+    except (json.JSONDecodeError, ValueError):
+        print("Erro: arquivo de dados corrompido ou em formato inválido.")
+        return
+    except Exception as e:
+        print(f"Erro inesperado ao carregar dados: {e}")
+        return
 
-    nome = input("informe um hábito (ex: Beber água, Caminhada): ")
-    categoria = input("Categoria (alimentação / sono / atividade física / outro): ")
-    meta_diaria = input("Meta diária (ex: 8 copos, 30 minutos): ")
+    while True:
+        nome = input("Informe um hábito (ex: Beber água, Caminhada): ").strip()
+        if nome:
+            break
+        print("O nome do hábito não pode ficar vazio. Tente novamente.")
 
-    habito = {
-        "id": len(habitos) + 1,
-        "nome": nome,
-        "categoria": categoria,
-        "meta_diaria": meta_diaria
-    }
+    categorias_validas = ["alimentação", "sono", "atividade física", "outro"]
+    while True:
+        categoria = input("Categoria (alimentação / sono / atividade física / outro): ").strip().lower()
+        if categoria in categorias_validas:
+            break
+        print(f"Categoria inválida. Escolha entre: {', '.join(categorias_validas)}.")
 
-    habitos.append(habito)
-    salvar_dados(ARQUIVO, habitos)
-    print(f"Hábito '{nome}' cadastrado com sucesso!")
+    while True:
+        meta_diaria = input("Meta diária (ex: 8 copos, 30 minutos): ").strip()
+        if meta_diaria:
+            break
+        print("A meta diária não pode ficar vazia. Tente novamente.")
+
+    try:
+        novo_id = (max(h["id"] for h in habitos) + 1) if habitos else 1
+
+        habito = {
+            "id": novo_id,
+            "nome": nome,
+            "categoria": categoria,
+            "meta_diaria": meta_diaria
+        }
+
+        habitos.append(habito)
+        salvar_dados(ARQUIVO, habitos)
+        print(f"Hábito '{nome}' cadastrado com sucesso!")
+
+    except (IOError, OSError) as e:
+        print(f"Erro ao salvar os dados: {e}")
+    except Exception as e:
+        print(f"Erro inesperado ao cadastrar o hábito: {e}")
 
 def ler_todos_habitos():
     habitos = carregar_dados(ARQUIVO)
