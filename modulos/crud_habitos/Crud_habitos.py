@@ -82,24 +82,41 @@ def ler_todos_habitos():
     print()
 
 def ler_um_habito():
-    habitos = carregar_dados(ARQUIVO)
+    try:
+        habitos = carregar_dados(ARQUIVO)
+    except FileNotFoundError:
+        habitos = []
+    except (json.JSONDecodeError, ValueError):
+        print("Erro: arquivo de dados corrompido ou em formato inválido.")
+        return
+    except Exception as e:
+        print(f"Erro inesperado ao carregar dados: {e}")
+        return
 
     if not habitos:
         print("Nenhum hábito cadastrado.")
         return
-    
-    try:
-        id_habito = int(input("Digite o ID do hábito: "))
-        for h in habitos:
-            if h["id"] == id_habito:
-                print("Detalhes do Hábito:")
-                print(f"Nome: {h['nome']}")
-                print(f"Categoria: {h['categoria']}")
-                print(f"Meta diária: {h['meta_diaria']}")
-                return
-        print("Hábito não encontrado.")
-    except ValueError:
-        print("ID inválido. Por favor, digite um número.")
+
+    while True:
+        entrada = input("Digite o ID do hábito: ").strip()
+        try:
+            id_habito = int(entrada)
+            if id_habito <= 0:
+                print("O ID deve ser um número positivo. Tente novamente.")
+                continue
+            break
+        except ValueError:
+            print("ID inválido. Por favor, digite um número inteiro.")
+
+    for h in habitos:
+        if h["id"] == id_habito:
+            print("Detalhes do Hábito:")
+            print(f"Nome: {h['nome']}")
+            print(f"Categoria: {h['categoria']}")
+            print(f"Meta diária: {h['meta_diaria']}")
+            return
+
+    print("Hábito não encontrado.")
 
 def editar_habito():
     habitos = carregar_dados(ARQUIVO)
