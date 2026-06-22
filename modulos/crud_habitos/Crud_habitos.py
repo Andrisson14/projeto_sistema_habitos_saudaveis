@@ -1,19 +1,28 @@
 from arquivos import carregar_dados, salvar_dados
 
 ARQUIVO = "habitos.json"
+ARQUIVO_USUARIOS = "usuarios.json"
 
-def menu_habitos():
-        print("=== Menu de Hábitos ===")
-        print("1. Criar hábito")
-        print("2. Ler todos os hábitos")
-        print("3. Ler um hábito específico")
-        print("4. Editar um hábito")
-        print("5. Excluir um hábito")
-        print("6. Sair")
 
 def criar_habito():
     
     habitos = carregar_dados(ARQUIVO)
+    usuarios = carregar_dados(ARQUIVO_USUARIOS)
+
+    while True:
+        id_usuario = input("ID do Usuário: ").strip()
+        try:
+            id_usuario = int(id_usuario)
+        except ValueError:
+            print("Você deve digitar um número.")
+            continue
+        if id_usuario <= 0:
+            print("Número inválido! O número deve ser maior que 0.")
+            continue
+        if not any(u["id"] == id_usuario for u in usuarios):
+            print("Usuário não encontrado! Digite um ID de usuário existente.")
+            continue
+        break
     
     while True:
         nome = input("Informe um hábito (ex: Beber água, Caminhada): ").strip()
@@ -39,6 +48,7 @@ def criar_habito():
 
     habito = {
         "id": novo_id,
+        "id_usuario": id_usuario,
         "nome": nome,
         "categoria": categoria,
         "meta_diaria": meta_diaria
@@ -57,8 +67,10 @@ def ler_todos_habitos():
         return
     
     print("Lista de Hábitos Cadastrados:")
+    print("-" * 20)
     for h in habitos:
         print(f"ID: {h['id']}")
+        print(f"ID do Usuário: {h['id_usuario']}")
         print(f"Nome: {h['nome']}")
         print(f"Categoria: {h['categoria']}")
         print(f"Meta diária: {h['meta_diaria']}")
@@ -87,6 +99,8 @@ def ler_um_habito():
     for h in habitos:
         if h["id"] == id_habito:
             print("Detalhes do Hábito:")
+            print(f"ID: {h['id']}")
+            print(f"ID do Usuário: {h['id_usuario']}")
             print(f"Nome: {h['nome']}")
             print(f"Categoria: {h['categoria']}")
             print(f"Meta diária: {h['meta_diaria']}")
@@ -144,25 +158,4 @@ def excluir_habito():
     except ValueError:
         print("ID inválido. Por favor, digite um ID válido.")
 
-def main():
-    while True:
-        menu_habitos()
-        opcao = input("Escolha uma opção: ")
 
-        if opcao == "1":
-            criar_habito()
-        elif opcao == "2":
-            ler_todos_habitos()
-        elif opcao == "3":
-            ler_um_habito()
-        elif opcao == "4":
-            editar_habito()
-        elif opcao == "5":
-            excluir_habito()
-        elif opcao == "6":
-            print("Saindo do menu de hábitos. Até mais!")
-            break
-        else:
-            print("Opção inválida. Por favor, escolha uma opção válida.")
-            
-if __name__ == "__main__":    main()
