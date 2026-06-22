@@ -138,11 +138,10 @@ def excluir_usuario():
     )
 
     usuarios_filtrados = [u for u in usuarios if u["id"] != id_busca]
- 
+
     if len(usuarios_filtrados) == len(usuarios):
         print("Usuário não encontrado.")
         return
-    
-    salvar_dados(ARQUIVO, usuarios)
+
+    salvar_dados(ARQUIVO, usuarios_filtrados)
     print("Usuário excluído com sucesso!")
-    
