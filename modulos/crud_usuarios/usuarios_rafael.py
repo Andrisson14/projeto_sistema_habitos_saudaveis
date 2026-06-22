@@ -78,6 +78,10 @@ def buscar_usuario():
 
     usuarios = carregar_dados(ARQUIVO)
 
+    if not usuarios:
+        print("Nenhum usuário cadastrado.")
+        return
+
     id_busca = ler_inteiro_positivo("Digite o ID do usuário: ")
 
 
@@ -96,6 +100,10 @@ def buscar_usuario():
 def atualizar_usuario():
 
     usuarios = carregar_dados(ARQUIVO)
+
+    if not usuarios:
+        print("Nenhum usuário cadastrado.")
+        return
 
     id_busca = ler_inteiro_positivo(
         "Digite o ID do usuário que deseja atualizar: "
@@ -121,17 +129,20 @@ def excluir_usuario():
 
     usuarios = carregar_dados(ARQUIVO)
 
+    if not usuarios:
+        print("Nenhum usuário cadastrado.")
+        return
+
     id_busca = ler_inteiro_positivo(
         "Digite o ID do usuário que deseja excluir: "
     )
 
-
-    for usuario in usuarios:
-        if usuario["id"] == id_busca:
-            usuarios.remove(usuario)
-            salvar_dados(ARQUIVO, usuarios)
-            print("Usuário excluído com sucesso!")
-            return
-
-
-    print("Usuário não encontrado.")
+    usuarios_filtrados = [u for u in usuarios if u["id"] != id_busca]
+ 
+    if len(usuarios_filtrados) == len(usuarios):
+        print("Usuário não encontrado.")
+        return
+    
+    salvar_dados(ARQUIVO, usuarios)
+    print("Usuário excluído com sucesso!")
+    
