@@ -1,30 +1,58 @@
-```gitignore
+# =========================
 # Python
+# =========================
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-.Python
+
+# =========================
+# Ambiente virtual
+# =========================
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Arquivos de configuração
+# =========================
+.env
+
+# =========================
+# IDEs / Editores
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Sistema operacional
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Build / distribuição
+# =========================
 build/
 dist/
 *.egg-info/
-.installed.cfg
-*.egg
 
-# Ambientes virtuais
-.venv/
-venv/
-ENV/
-env/
-instance/
-
-# Banco de dados SQLite
+# =========================
+# Banco de dados (caso use no futuro)
+# =========================
 *.sqlite3
-db.sqlite3
 
-# Arquivos de configuração sensíveis
-.env
+# =========================
+# Cache geral
+# =========================
+.cache/
 
-# Pastas de IDE
-.vscode/
-.idea/
+# =========================
+# Pytest (se usar futuramente)
+# =========================
+.pytest_cache/
