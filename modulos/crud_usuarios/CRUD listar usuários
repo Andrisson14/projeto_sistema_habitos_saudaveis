@@ -1,0 +1,8 @@
+def listar_usuarios():
+   if len(usuarios) == 0:
+       print("Nenhum usuário cadastrado.")
+       return
+
+   for usuario in usuarios:
+       usuario.exibir()
+       print("-" * 30)
