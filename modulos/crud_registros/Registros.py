@@ -1,20 +1,15 @@
-import json
-import os
+from arquivos import carregar_dados, salvar_dados
 
-NOME_ARQUIVO = "registros.json"
-
-if not os.path.exists(NOME_ARQUIVO):
-    with open(NOME_ARQUIVO, "w")as arquivo:
-        arquivo.write("[]")
-
-with open(NOME_ARQUIVO, "r")as arquivo:
-    registros = json.load(arquivo)
-
-def salvar_dados():
-    with open(NOME_ARQUIVO, "w")as arquivo:
-        json.dump(registros, arquivo, indent=4)
+ARQUIVO = "registros.json"
+ARQUIVO_HABITOS = "habitos.json"
+ARQUIVO_USUARIOS = "usuarios.json"
 
 def criar_registro():
+
+    registros = carregar_dados(ARQUIVO)
+    habitos = carregar_dados(ARQUIVO_HABITOS)
+    usuarios = carregar_dados(ARQUIVO_USUARIOS)
+
     while True:
         id_usuario = int(input("ID do Usuário: "))
         if id_usuario > 0:
@@ -51,10 +46,13 @@ def criar_registro():
     }
 
     registros.append(registro)
-    salvar_dados()
+    salvar_dados(ARQUIVO, registros)
     print("Registro adicionado com sucesso!")
 
 def listar_registros():
+
+    registros = carregar_dados(ARQUIVO)
+
     if registros:
         for item in registros:
             print("ID de registro:", item["id"])
@@ -67,6 +65,10 @@ def listar_registros():
         print("Nenhum registro encontrado.")
 
 def atualizar_registro():
+
+    registros = carregar_dados(ARQUIVO)
+
+
     while True:
         from datetime import datetime
         busca = (input("Digite o ID do registro que deseja atualizar:")).strip()
@@ -98,6 +100,10 @@ def atualizar_registro():
             return
 
 def excluir_registro():
+
+    registros = carregar_dados(ARQUIVO)
+
+
     while True:
         busca = (input("Digite o ID do registro que deseja excluir: ")).strip()
         try:
@@ -116,6 +122,10 @@ def excluir_registro():
             print("Você deve dígitar um valor.")
 
 def procurar_registro():
+
+    registros = carregar_dados(ARQUIVO)
+
+
     while True:
         busca = (input("Digite o ID do registro que deseja procurar: ")).strip()
         try:
