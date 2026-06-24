@@ -1,4 +1,4 @@
-# Sistema de Hábitos Saudáveis
+# Sistema de Hábitos Saudáveis - HABIT FLOW
 
 **Disciplina:** Programação 1  
 **Ano:** 2026  
@@ -18,9 +18,10 @@
 
 
 ## Como executar o projeto
-
+Baixe a pasta Projeto_Completo
+e rode o arquivo abaixo
 ```bash
-python3 main.py
+python3 main_rodar_projeto.py
 
 
 Status do Desenvolvimento:
@@ -40,15 +41,26 @@ Mantenha o código organizado dentro da pasta modulos/
 
 Estrutura de Pastas:
 projeto_sistema_habitos_saudaveis/
-├── main.py
-├── requirements.txt
 ├── README.md
 ├── .gitignore
+└── Projeto_completo/
+├── arquivos.py
+├── habitos_isaque.py
+├── usuarios_rafael.py
+├── registros_vitor.py
+├── relatorios_paulo.py
+├── menu_exibicao.py
+├── main_rodar_projeto.py
 └── modulos/
-    ├── crud_habitos/
-    ├── crud_registros/
-    ├── crud_usuarios/
-    └── relatorios/
+├── crud_habitos/
+│ └── habitos.py
+├── crud_registros/
+│ └── registros.py
+├── crud_usuarios/
+│ ├── usuarios_rafael.py
+│ └── arquivos.py
+└── relatorios/
+└── relatorios.py
 
 
 
